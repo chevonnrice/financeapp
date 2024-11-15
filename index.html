@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Budget App</title>
     <style>
-        /* Full screen black background */
         body, html {
             margin: 0;
             padding: 0;
@@ -16,17 +15,58 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: none; /* Prevents gestures on touchscreens */
         }
 
-        /* Full screen iframe */
         iframe {
             width: 100vw;
             height: 100vh;
             border: none;
         }
+
+        /* Button to enter fullscreen (for user interaction) */
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            display: none; /* Hidden initially */
+        }
     </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbyWwrMYtTRvkVyk6DIZeN_1O22s45N9t-yJPYmzQ8iPRuSl1lIC7BYTKQ4mXo6SHO0wMQ/exec" scrolling="no"></iframe>
+
+    <!-- Iframe for the Google Apps Script web app -->
+    <iframe id="appFrame" src="https://script.google.com/macros/s/AKfycbyWwrMYtTRvkVyk6DIZeN_1O22s45N9t-yJPYmzQ8iPRuSl1lIC7BYTKQ4mXo6SHO0wMQ/exec" scrolling="no"></iframe>
+
+    <!-- Fullscreen button -->
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">Go Fullscreen</button>
+
+    <script>
+        // Enable Fullscreen mode when the user clicks the button
+        function toggleFullscreen() {
+            const iframe = document.getElementById('appFrame');
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) { /* Safari */
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { /* IE11 */
+                iframe.msRequestFullscreen();
+            }
+        }
+
+        // Detect if fullscreen mode is not available on page load and show button if available
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!document.fullscreenEnabled) {
+                document.querySelector('.fullscreen-btn').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
