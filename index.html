@@ -60,12 +60,6 @@
                 iframe.msRequestFullscreen();
             }
         }
-
-        // Detect if fullscreen mode is not available on page load and show button if available
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!document.fullscreenEnabled) {
-                document.querySelector('.fullscreen-btn').style.display = 'block';
-            }
         });
     </script>
 </body>
